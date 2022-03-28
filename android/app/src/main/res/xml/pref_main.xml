@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="General">
+
+        <EditTextPreference
+            android:defaultValue="@string/default_ping_rate"
+            android:key="@string/key_ping_rate"
+            android:summary="@string/summary_ping_rate"
+            android:title="@string/title_ping_rate"
+            android:inputType="numberDecimal"
+            android:digits="0123456789"/>
+
+
+
+    </PreferenceCategory>
+</PreferenceScreen>
