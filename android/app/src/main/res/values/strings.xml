@@ -11,4 +11,7 @@
     <string name="key_service">key_service</string>
     <string name="summary_service">Start/Stop service in bg</string>
     <string name="title_service">Enable/Disable Service</string>
+    <string name="url_getintruder">http://5796-14-139-185-120.ngrok.io/get_intruder</string>
+    <string name="url_deviceon">http://5796-14-139-185-120.ngrok.io/device_on</string>
+    <string name="url_deviceoff">http://5796-14-139-185-120.ngrok.io/device_off</string>
 </resources>

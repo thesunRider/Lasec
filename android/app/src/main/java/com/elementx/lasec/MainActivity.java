@@ -20,6 +20,14 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -48,18 +56,77 @@ public class MainActivity extends AppCompatActivity {
 
         simpleSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+                String url;
+
                 if (isChecked){
+
                     String currentDate = new SimpleDateFormat("yyyy/MM/dd_HH:mm:ss", Locale.getDefault()).format(new Date());
                     prs1.append("\n> "+currentDate +": Lasec Service Started" );
 
                     intent.putExtra("MESSENGER", new Messenger(messageHandler));
                     startService(intent);
+                    url = getString(R.string.url_deviceon);
+
+                    JsonObjectRequest request = new JsonObjectRequest(url, null,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    if (null != response) {
+                                        try {
+                                            //handle your response
+                                            Log.i("response",String.valueOf(response.getBoolean("status")));
+
+
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            error.printStackTrace();
+                            Log.e("error_json","error in Json Response");
+                        }
+                    });
+                    queue.add(request);
 
                 }else{
                     String currentDate = new SimpleDateFormat("yyyy/MM/dd_HH:mm:ss", Locale.getDefault()).format(new Date());
                     prs1.append("\n> "+currentDate +": Lasec Service Terminated" );
                     stopService(intent);
+                    url = getString(R.string.url_deviceoff);
+
+                    JsonObjectRequest request = new JsonObjectRequest(url, null,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    if (null != response) {
+                                        try {
+                                            //handle your response
+                                            Log.i("response",String.valueOf(response.getBoolean("status")));
+
+
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            error.printStackTrace();
+                            Log.e("error_json","error in Json Response");
+                        }
+                    });
+                    queue.add(request);
                 }
+
+
             }
         });
 
